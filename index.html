@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" type="text/css" href="datedropper.css">
+	<script type="text/javascript" src="jquery.min.js"></script>
+	<script src="datedropper.js"></script>
+</head>
+<body>
+	<h1>DateDropper</h1>
+	<input type="text" id="departure" class="form-control" />
+	<script>
+		$( "#departure" ).dateDropper();
+		var hoy=new Date();
+		var fecha_hoy=	(hoy.getMonth()+1)+'/'
+						+hoy.getDate()+'/'
+						+(hoy.getFullYear()-20);
+		$("#departure").val(fecha_hoy);
+	</script>
+</body>
+</html>

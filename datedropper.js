@@ -24,7 +24,7 @@ jQuery.easing._dd_easing = function(x, t, b, c, d) {
                 var _structure = '<div class="dd-w dd-init" id="dd-w-' + _dd_id + '"><div class="dd-o"></div><div class="dd-c"><div class="dd-w-c"><div class="dd-b dd-m"><div class="dd-ul"><a class="dd-n dd-n-left"><i class="dd-icon-left" ></i></a><a class="dd-n dd-n-right"><i class="dd-icon-right" ></i></a><ul></ul></div></div><div class="dd-b dd-d"><div class="dd-ul"><a class="dd-n dd-n-left"><i class="dd-icon-left" ></i></a><a class="dd-n dd-n-right"><i class="dd-icon-right" ></i></a><ul></ul></div></div><div class="dd-b dd-y"><div class="dd-ul"><a class="dd-n dd-n-left"><i class="dd-icon-left" ></i></a><a class="dd-n dd-n-right"><i class="dd-icon-right" ></i></a><ul></ul></div></div><div class="dd-s-b dd-s-b-m dd-trans"><div class="dd-s-b-ul"><ul></ul></div></div><div class="dd-s-b dd-s-b-d dd-trans"><div class="dd-s-b-ul"><ul></ul></div></div><div class="dd-s-b dd-s-b-y dd-trans"><div class="dd-s-b-ul"><ul></ul></div></div><div class="dd-s-b dd-s-b-s-y dd-trans"><div class="dd-s-b-ul"><ul></ul></div></div><div class="dd-s-b-s"><i class="dd-icon-close" ></i></div><div class="dd-b dd-sub-y"><div class="dd-ul"><a class="dd-n dd-n-left"><i class="dd-icon-left" ></i></a><a class="dd-n dd-n-right"><i class="dd-icon-right" ></i></a><ul></ul></div></div><div class="dd-s"><a><i class="dd-icon-check" ></i></a></div></div></div></div>';
 
                 $('body').append(_structure);
-
+                
                 var
                     _dd_input = $(this),
                     _dd = $('#dd-w-' + _dd_id),
@@ -37,21 +37,38 @@ jQuery.easing._dd_easing = function(x, t, b, c, d) {
                     _dd_settings = $.extend({
 
                         animate: true,
-                        init_animation: "fadein",
+                        //init_animation: "fadein",
+                        //init_animation: "bounce",
+                        init_animation: "dropdown",
                         format: "m/d/Y",
-                        lang: "en",
-                        lock: false,
-                        maxYear: t_y_cur,
-                        minYear: 1970,
+                         //format: "d-m-Y",
+                        lang: "es",
+                        //lock: false,
+                        // lock: 'from',
+                        lock: 'to',
+                        // maxYear: t_y_cur,
+                        maxYear: t_y_cur-18, //18 años atrás
+                        // maxDate: t_y_cur+'-'+(t_m_cur+1)+'-'+t_d_cur,
+                        maxDate: (t_y_cur-18)+'-'+(t_m_cur+1)+'-'+t_d_cur, //18 años atrás
+                        // minYear: 1970,
+                        // minYear: t_y_cur-18,
+                        minYear: t_y_cur-100,//100 años atrás
+                        // minDate: (t_y_cur-18)+'-'+(t_m_cur+1)+'-'+t_d_cur,
+                        minDate: (t_y_cur-100)+'-'+(t_m_cur+1)+'-'+t_d_cur,//100 años atrás
+                        // minDate: false,
                         yearsRange: 10,
 
                         //CSS PRIOPRIETIES//
-                        dropPrimaryColor: "#01CEFF",
+                        // dropPrimaryColor: "#01CEFF",
+                         dropPrimaryColor: "#27E62B",
+                        //dropPrimaryColor: "#FF2A2A",
                         dropTextColor: "#333333",
                         dropBackgroundColor: "#FFFFFF",
-                        dropBorder: "1px solid #08C",
+                        // dropBorder: "1px solid #08C",
+                         dropBorder: "1px solid #00CC05",
                         dropBorderRadius: 8,
-                        dropShadow: "0 0 10px 0 rgba(0, 136, 204, 0.45)",
+                        // dropShadow: "0 0 10px 0 rgba(0, 136, 204, 0.45)",
+                        dropShadow: "0 0 10px 0 rgba(0, 136, 20, 0.45)",
                         dropWidth: 124,
 						dropTextWeight: 'bold'
 
@@ -770,6 +787,37 @@ jQuery.easing._dd_easing = function(x, t, b, c, d) {
 
                         }
 
+
+                        if(_dd_settings.minDate){
+                             var
+                                d1 = _dd_settings.minDate;
+                                d1 = Date.parse(d1)/1000;
+                                d2 = _dd_y + "-" + _dd_m + "-" + _dd_d;
+                                d2 = Date.parse(d2) / 1000;
+
+                                // console.log('Fecha d1: '+d1);
+                                // console.log('Fecha d2: '+d2);
+                                if(d2<d1){
+                                    _dd_alert();
+                                    return false;
+                                }
+                        }
+
+                         if(_dd_settings.maxDate){
+                             var
+                                d1 = _dd_settings.maxDate;
+                                console.log('Fecha Máxima: '+d1);
+                                d1 = Date.parse(d1)/1000;
+                                d2 = _dd_y + "-" + _dd_m + "-" + _dd_d;
+                                console.log('Fecha Entrante: '+d2);
+                                d2 = Date.parse(d2) / 1000;
+
+                                if(d2>d1){
+                                    _dd_alert();
+                                    return false;
+                                }
+                        }
+
                         var
                             x = new Date(_dd_m + "/" + _dd_d + "/" + _dd_y),
                             x = x.getDay();
@@ -1172,7 +1220,7 @@ jQuery.easing._dd_easing = function(x, t, b, c, d) {
 
                             _dd_m = t_m_cur + 1,
 							_dd_d = t_d_cur,
-							_dd_y = t_y_cur;
+							_dd_y = (t_y_cur-20); //20 años atrás
 
                             if (parseInt(_dd_input.attr('data-d')) && parseInt(_dd_input.attr('data-d')) <= 31)
                                 _dd_d = parseInt(_dd_input.attr('data-d'));
